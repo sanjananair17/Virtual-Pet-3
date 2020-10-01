@@ -93,6 +93,18 @@ function setup() {
 function draw() {  
   background(46, 139, 87);
 
+  fedTime=database.ref('FeedTime');
+  fedTime.on("value", function(data){
+    lastFed=data.val();
+  });
+
+  //add styles here
+  fill("blue");
+  textSize(15);
+  stroke(5);
+
+  text("FOOD REMAINING: " + foodS, 170,60);
+
   currentTime = hour();
   if(currentTime === (lastFed + 1)){
     update("Playing");
@@ -108,13 +120,6 @@ function draw() {
     foodObj.display();
   }
 
-  //add styles here
-  fill("blue");
-  textSize(15);
-  stroke(5);
-
-  text("FOOD REMAINING: " + foodS, 170,60);
-
   fill(255,255,254);
   textSize(15);
   if(lastFed >= 12){
@@ -124,11 +129,6 @@ function draw() {
   } else{
     text("Last Fed:"+ lastFed + "AM", 350, 30);
   }
-
-  fedTime=database.ref('FeedTime');
-  fedTime.on("value", function(data){
-    lastFed=data.val();
-  });
 
   if(gameState != "Hungry"){
     feedPet.hide();
